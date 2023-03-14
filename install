@@ -1,13 +1,15 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
+
+adduser maildev --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 mkdir /opt
 cd /opt
 git clone https://github.com/xavierpriour/catchmail-node ./catchmail-node
+chown -R maildev:maildev /opt/catchmail-node
 git clone https://github.com/maildev/maildev ./maildev -b v2.0.5
-source /opt/nvm/nvm.sh && nvm use v16
-cd ../maildev
-npm install
-cd ./catchmail-node
-npm install
+chown -R maildev:maildev /opt/maildev
+
+runuser -l maildev -c "cd /opt/maildev && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
+runuser -l maildev -c "cd /opt/catchmail-node && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
 
 /usr/local/hestia/bin/v-add-user-notification admin "MailDev" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailDev has finished installing."
