@@ -2,3 +2,4 @@
 
 rm -rf /opt/maildev
 rm -rf /opt/catchmail-node
+deleteuser maildev
