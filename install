@@ -4,7 +4,7 @@ mkdir /opt
 cd /opt
 git clone https://github.com/xavierpriour/catchmail-node ./catchmail-node
 git clone https://github.com/maildev/maildev ./maildev -b v2.0.5
-nvm use v16
+source /opt/nvm/nvm.sh && nvm use v16
 cd ../maildev
 npm install
 cd ./catchmail-node
