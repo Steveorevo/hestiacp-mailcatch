@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf /opt/maildev
+rm -rf /catchmail-node
