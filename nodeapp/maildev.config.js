@@ -22,7 +22,6 @@ module.exports = {
         if (fs.existsSync(nvmrc)) {
             ver = fs.readFileSync(nvmrc, {encoding: 'utf8', flat: 'r'}).trim();
         }
-        const {execSync} = require('child_process');
         ver = execSync('/bin/bash -c "source /opt/nvm/nvm.sh && nvm which ' + ver + '"').toString().trim();
         if (!fs.existsSync(ver)) {
             console.error(ver);
