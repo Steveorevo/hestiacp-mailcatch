@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Plugin Name: MailDev
  * Plugin URI: https://github.com/steveorevo/hestiacp-maildev
