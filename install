@@ -12,6 +12,7 @@ chown -R maildev:maildev /opt/maildev
 runuser -l maildev -c "cd /opt/maildev && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
 runuser -l maildev -c "cd /opt/catchmail-node && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
 
+cd /usr/local/hestia/plugins/maildev
 rsync -r ./nodeapp/ /opt/maildev/
 
 /usr/local/hestia/bin/v-add-user-notification admin "MailDev" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailDev has finished installing."
