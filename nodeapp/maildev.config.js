@@ -3,6 +3,7 @@ module.exports = {
 
         // Obtain maildev details
         const fs = require('fs');
+        const {execSync} = require('child_process');
         let hostname = execSync('/bin/bash -c "hostname -f"').toString().trim();
         hostname = hostname.split('.').slice(-2).join('.');
         let details = {};
