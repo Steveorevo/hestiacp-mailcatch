@@ -18,6 +18,28 @@
             global $hcpp;
             $hcpp->maildev = $this;
             $hcpp->add_action( 'render_page', [ $this, 'render_page' ] );
+            $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
+            $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
+        }
+
+
+        // Ensure smtp.json is present for each domain
+        public function create_smtp_json( $user, $domain ) {
+            $file = "/home/$user/web/$domain/private/smtp.json";
+            if ( file_exists( $file ) ) return;
+            global $hcpp;
+            $password = $hcpp->nodeapp->random_chars( 16 );
+            $content = "{\n  \"username\": \"$domain\",\n  \"password\": \"$password\",\n  \"port\": 2525\n}";
+            file_put_contents( $file, $content );
+            shell_exec( "chown $user:maildev $file && chmod 640 $file" );
+        }
+
+        public function priv_unsuspend_domain( $args ) {
+            
+        }
+
+        public function new_web_domain_ready( $args ) {
+
         }
 
         // Add MailDev icon next to each domain

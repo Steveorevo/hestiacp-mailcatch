@@ -3,3 +3,4 @@
 rm -rf /opt/maildev
 rm -rf /opt/catchmail-node
 deluser maildev
+rm -rf /home/maildev

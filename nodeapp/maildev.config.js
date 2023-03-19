@@ -42,7 +42,13 @@ module.exports = {
         }
         port = parseInt(port.trim().split(' ').pop());
         details._port = port;
-        details.args = "-w " + details._port + " -s 2525";
+        details.args = "-w " + details._port + " -s 2525 --base-pathname /maildev --mail-directory /tmp/maildev";
+
+        // Check for debug mode and pass debug port as port + 3000 offset
+        if ( fs.existsSync(details.cwd + '/.debug') ) {
+            details._debugPort = port + 3000;
+            details.interpreter_args = '--inspect=' + details._debugPort;
+        }
         console.log(details);
         return [details];
     })()
