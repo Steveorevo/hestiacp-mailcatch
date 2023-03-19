@@ -35,16 +35,18 @@
         }
 
         public function priv_unsuspend_domain( $args ) {
-            
+            return $args;
         }
 
         public function new_web_domain_ready( $args ) {
-
+            return $args;
         }
 
         // Add MailDev icon next to each domain
-        public function render_page() {
+        public function render_page( $args ) {
             global $hcpp;
+            $hcpp->log( $args );
+            return $args;
         }
 
         // Startup MailDev server
