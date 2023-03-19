@@ -19,6 +19,7 @@
             $hcpp->maildev = $this;
             $hcpp->add_action( 'render_page', [ $this, 'render_page' ] );
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
+            $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
         }
 
@@ -49,13 +50,14 @@
             return $args;
         }
 
-        // Startup MailDev server
-        public function start() {
-            global $hcpp;
-            $hcpp->log( 'Starting MailDev server' );
-            $port = $hcpp->allocate_port( 'maildev_port' );
-            $hcpp->log( 'MailDev server port: ' . $port );
+        // Allocate port on install
+        public function hcpp_plugin_installed( $plugin_name ) {
+            if ( $plugin_name == 'maildev' ) {
+                global $hcpp;
+                $port = $hcpp->allocate_port( 'maildev_port' );
+            }
         }
+
     }
     new MailDev();
 }
