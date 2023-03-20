@@ -34,14 +34,12 @@
             shell_exec( "chown $user:maildev $file && chmod 640 $file" );
         }
         public function priv_unsuspend_domain( $args ) {
-            global $hcpp;
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
             return $args;
         }
         public function new_web_domain_ready( $args ) {
-            global $hcpp;
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
