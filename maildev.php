@@ -23,7 +23,6 @@
             $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
         }
 
-
         // Ensure smtp.json is present for each domain
         public function create_smtp_json( $user, $domain ) {
             $file = "/home/$user/web/$domain/private/smtp.json";
@@ -35,26 +34,79 @@
             shell_exec( "chown $user:maildev $file && chmod 640 $file" );
         }
 
+
         public function priv_unsuspend_domain( $args ) {
             global $hcpp;
-            $hcpp->log("maildev->priv_unsuspend_domain");
-            $hcpp->log($args);
+            $user = $args[0];
+            $domain = $args[1];
             return $args;
         }
-
         public function new_web_domain_ready( $args ) {
             global $hcpp;
-            $hcpp->log("maildev->new_web_domain_ready");
-            $hcpp->log($args);
+            $user = $args[0];
+            $domain = $args[1];
             return $args;
         }
 
-        // Add MailDev icon next to each domain
+        // Add MailDev icon next to our web domain list and domain edit pages.
         public function render_page( $args ) {
-            global $hcpp;
-            $hcpp->log( $args );
+            if ( $args['page'] == 'list_web' ) {
+                $args = $this->render_list_web( $args );
+            }
+            if ( $args['page'] == 'edit_web' ) {
+                $args = $this->render_edit_web( $args );
+            }
             return $args;
-        }
+       }
+
+       // Add MailDev icon to our web domain edit page.
+       public function render_edit_web( $args ) {
+            global $hcpp;
+            $domain = $_GET['domain'];
+            $content = $args['content'];
+
+            // Create blue code icon button to appear before Quick Installer button
+            $code = '<a href="https://' . $domain . '/maildev" target="_blank" class="ui-button cancel" ';
+            $code .= 'dir="ltr"><i class="fas fa-envelope status-icon blue">';
+            $code .= '</i> Open MailDev</a>';
+
+            // Inject the button into the page's toolbar buttonstrip
+            $quick = '"fas fa-magic status-icon blue';
+            $before = $hcpp->getLeftMost( $content, $quick );
+            $after = $quick . $hcpp->delLeftMost( $content, $quick );
+            $after = '<a href' . $hcpp->getRightMost( $before, '<a href' ) . $after;
+            $before = $hcpp->delRightMost( $before, '<a href' );
+            $content = $before . $code . $after;
+            $args['content'] = $content;
+            return $args;
+       }
+
+       // Add MailDev icon to our web domain list page.
+       public function render_list_web( $args ) {
+            global $hcpp;
+            $content = $args['content'];
+
+            // Create blue code icon before pencil/edit icon
+            $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
+            $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
+            <a href="https://%domain%/maildev" rel="noopener" target="_blank" title="Open MailDev">
+                <i class="fas fa-envelope status-icon blue status-icon dim"></i>
+            </a></div>&nbsp;';
+            $new = '';
+
+            // Inject the code icon for each domain
+            while( false !== strpos( $content, $div ) ) {
+                $new .= $hcpp->getLeftMost( $content, $div );
+                $domain = $hcpp->getRightMost( $new, 'sort-name="' );
+                $domain = $hcpp->getLeftMost( $domain, '"' );
+                $content = $hcpp->delLeftMost( $content, $div );
+                $new .= str_replace( '%domain%', $domain, $code ) . $div . $hcpp->getLeftMost( $content, '</div>' ) . "</div>";
+                $content = $hcpp->delLeftMost( $content, '</div>' );
+            }
+            $new .= $content;
+            $args['content'] = $new;
+            return $args;
+       }
 
         // Allocate port on and start server on install
         public function hcpp_plugin_installed( $plugin_name ) {
