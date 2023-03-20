@@ -23,7 +23,7 @@
             $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
         }
 
-        // Ensure smtp.json is present for each domain
+        // Ensure private/smtp.json is present the domain
         public function create_smtp_json( $user, $domain ) {
             $file = "/home/$user/web/$domain/private/smtp.json";
             if ( file_exists( $file ) ) return;
@@ -33,18 +33,18 @@
             file_put_contents( $file, $content );
             shell_exec( "chown $user:maildev $file && chmod 640 $file" );
         }
-
-
         public function priv_unsuspend_domain( $args ) {
             global $hcpp;
             $user = $args[0];
             $domain = $args[1];
+            $this->create_smtp_json( $user, $domain );
             return $args;
         }
         public function new_web_domain_ready( $args ) {
             global $hcpp;
             $user = $args[0];
             $domain = $args[1];
+            $this->create_smtp_json( $user, $domain );
             return $args;
         }
 
@@ -115,8 +115,6 @@
             $port = $hcpp->allocate_port( 'maildev_port' );
             return $plugin_name;
         }
-
-
     }
     new MailDev();
 }
