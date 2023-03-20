@@ -65,7 +65,7 @@
 
             // Create blue code icon button to appear before Quick Installer button
             $code = '<a href="https://' . $domain . '/maildev" target="_blank" class="ui-button cancel" ';
-            $code .= 'dir="ltr"><i class="fas fa-envelope status-icon white">';
+            $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
             $code .= '</i> MailDev</a>';
 
             // Inject the button into the page's toolbar buttonstrip
@@ -88,7 +88,7 @@
             $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
             $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
             <a href="https://%domain%/maildev" rel="noopener" target="_blank" title="Open MailDev">
-                <i class="fas fa-envelope status-icon white status-icon dim"></i>
+                <i class="fas fa-envelope status-icon highlight status-icon dim"></i>
             </a></div>&nbsp;';
             $new = '';
 
