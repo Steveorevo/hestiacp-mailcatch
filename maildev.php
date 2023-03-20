@@ -68,7 +68,7 @@
             // Create blue code icon button to appear before Quick Installer button
             $code = '<a href="https://' . $domain . '/maildev" target="_blank" class="ui-button cancel" ';
             $code .= 'dir="ltr"><i class="fas fa-envelope status-icon blue">';
-            $code .= '</i> Open MailDev</a>';
+            $code .= '</i> MailDev</a>';
 
             // Inject the button into the page's toolbar buttonstrip
             $quick = '"fas fa-magic status-icon blue';
