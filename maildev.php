@@ -36,10 +36,16 @@
         }
 
         public function priv_unsuspend_domain( $args ) {
+            global $hcpp;
+            $hcpp->log("maildev->priv_unsuspend_domain");
+            $hcpp->log($args);
             return $args;
         }
 
         public function new_web_domain_ready( $args ) {
+            global $hcpp;
+            $hcpp->log("maildev->new_web_domain_ready");
+            $hcpp->log($args);
             return $args;
         }
 
@@ -50,13 +56,14 @@
             return $args;
         }
 
-        // Allocate port on install
+        // Allocate port on and start server on install
         public function hcpp_plugin_installed( $plugin_name ) {
-            if ( $plugin_name == 'maildev' ) {
-                global $hcpp;
-                $port = $hcpp->allocate_port( 'maildev_port' );
-            }
+            if ( $plugin_name != 'maildev' ) return $plugin_name;
+            global $hcpp;
+            $port = $hcpp->allocate_port( 'maildev_port' );
+            return $plugin_name;
         }
+
 
     }
     new MailDev();
