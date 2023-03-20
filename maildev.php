@@ -104,7 +104,7 @@
                 $content = $hcpp->delLeftMost( $content, '</div>' );
             }
             $new .= $content;
-            $args['content'] = $new;
+            $args['content'] = $new . '<style>.l-unit-toolbar__col{min-width: 200px;}</style>';
             return $args;
        }
 
