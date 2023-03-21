@@ -89,6 +89,7 @@ module.exports = function (app, mailserver, basePathname) {
     if (domain !== '') {
       let cmd = 'rm -rf ' + mailserver.mailDir + '/' + domain + '_*';
       dl.log(cmd);
+      const {execSync} = require('child_process');
       execSync(cmd);
     }
   })
