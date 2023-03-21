@@ -471,7 +471,7 @@ mailServer.deleteAllEmail = function (domain, done) {
 
   //clearMailDir()
   store.length = emlFiles.length; // return count of .eml files 
-  eventEmitter.emit('delete', { id: 'all' })
+  // eventEmitter.emit('delete', { id: 'all' })
   done(null, true)
 }
 
