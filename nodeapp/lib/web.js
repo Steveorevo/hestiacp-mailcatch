@@ -63,10 +63,10 @@ function emitDeleteMail (socket) {
     let domain = getNested(socket, 'handshake', 'headers', 'host');
     domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
     const dl = require('../debuglog.js');
-    dl.log('emitNewMail');
+    dl.log('emitDeleteMail');
     dl.log(domain);
     dl.log(email);
-    if ( email.source.indexOf("/" + domain + "_") == -1 ) return;
+    if ( email.id.indexOf(domain + "_") == -1 ) return;
     socket.emit('deleteMail', email)
   }
 }
