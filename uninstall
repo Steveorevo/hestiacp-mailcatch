@@ -1,5 +1,5 @@
 #!/bin/bash
-
+runuser -l maildev -c "cd /opt/maildev && source /opt/nvm/nvm.sh && pm2 delete maildev ; pm2 save --force"
 rm -rf /opt/maildev
 rm -rf /opt/catchmail-node
 deluser maildev
