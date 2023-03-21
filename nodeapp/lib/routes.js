@@ -9,6 +9,7 @@ const pkg = require('../package.json')
 const { filterEmails } = require('./utils')
 
 const emailRegexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const dl = require('../debuglog.js');
 
 module.exports = function (app, mailserver, basePathname) {
   const router = express.Router()
@@ -68,7 +69,6 @@ module.exports = function (app, mailserver, basePathname) {
 
   // Read all emails
   router.patch('/email/read-all', function (req, res) {
-    const dl = require('debuglog.js');
     dl.log('router.patch(/email/read-all...');
     dl.log(domain);
     dl.log(email);
@@ -81,7 +81,6 @@ module.exports = function (app, mailserver, basePathname) {
   // Delete all emails
   // TODO: create generic function to get revelent domain, pass it along to mailserver.deleteAllEmail
   router.delete('/email/all', function (req, res) {
-    const dl = require('debuglog.js');
     dl.log('router.delete(/email/all...');
     dl.log(domain);
     dl.log(email);
