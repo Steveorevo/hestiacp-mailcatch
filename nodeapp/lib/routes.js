@@ -42,13 +42,7 @@ module.exports = function (app, mailserver, basePathname) {
             if (err) return res.status(404).json({ error: err.message })
 
             // Check domain
-            let domain;
-            for (let i = 0; i < req.rawHeaders.length; i++) {
-                if (req.rawHeaders[i].toLowerCase() === 'host' && i < req.rawHeaders.length - 1) {
-                domain = req.rawHeaders[i + 1];
-                break;
-                }
-            }
+            let domain = getDomainByReq(req);
 
             if ( email.source.includes(`/${domain}_`)) {
                 email.read = true // Mark the email as 'read'
@@ -59,6 +53,16 @@ module.exports = function (app, mailserver, basePathname) {
         })
     })
 
+    function getDomainByReq(req) {
+      let domain = '';
+      for (let i = 0; i < req.rawHeaders.length; i++) {
+          if (req.rawHeaders[i].toLowerCase() === 'host' && i < req.rawHeaders.length - 1) {
+          domain = req.rawHeaders[i + 1];
+          break;
+          }
+      }
+      return domain;
+    }
   // Read email
   // router.patch('/email/:id/read', function (req, res) {
   //  mailserver.readEmail(req.params.id, function (err, email) {
@@ -82,14 +86,14 @@ module.exports = function (app, mailserver, basePathname) {
   // TODO: create generic function to get revelent domain, pass it along to mailserver.deleteAllEmail
   router.delete('/email/all', function (req, res) {
     dl.log('router.delete(/email/all...');
-    dl.log(req);
+    let domain = getDomainByReq(req);
+    dl.log(domain);
+    dl.log(mailserver.mailDir);
     //dl.log(email);
     // mailserver.deleteAllEmail(function (err) {
     //   if (err) return res.status(500).json({ error: err.message })
     //   res.json(true)
     // })
-
-
   })
 
   // Delete email by id
