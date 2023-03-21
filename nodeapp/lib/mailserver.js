@@ -3,8 +3,7 @@
 /**
  * MailDev - mailserver.js
  */
-const dl = require('./debuglog');
-dl.log("Hello");
+
 const SMTPServer = require('smtp-server').SMTPServer
 const MailParser = require('../vendor/mailparser-mit').MailParser
 const events = require('events')
@@ -104,7 +103,8 @@ function saveAttachment (id, attachment) {
  *  Handle smtp-server onData stream
  */
 function handleDataStream (stream, session, callback) {
-  dl.log( session );
+  const dl = require('../debuglog.js');
+  dl.log(session);
   const id = utils.makeId()
 
   const emlStream = fs.createWriteStream(
