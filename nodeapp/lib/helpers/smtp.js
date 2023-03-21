@@ -46,6 +46,7 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
       console.error(`Error verifying SMTP configuration file password: ${err.message}`);
       return callback(new Error('Invalid username or password'));
     }
-    callback(null, { user: username })
+    callback(new Error('Invalid username or password'));
+    //callback(null, { user: username })
   }
 }
