@@ -68,6 +68,10 @@ module.exports = function (app, mailserver, basePathname) {
 
   // Read all emails
   router.patch('/email/read-all', function (req, res) {
+    const dl = require('debuglog.js');
+    dl.log('router.patch(/email/read-all...');
+    dl.log(domain);
+    dl.log(email);
     mailserver.readAllEmail(function (err, count) {
       if (err) return res.status(500).json({ error: err.message })
       res.json(count)
@@ -77,9 +81,12 @@ module.exports = function (app, mailserver, basePathname) {
   // Delete all emails
   // TODO: create generic function to get revelent domain, pass it along to mailserver.deleteAllEmail
   router.delete('/email/all', function (req, res) {
+    const dl = require('debuglog.js');
+    dl.log('router.delete(/email/all...');
+    dl.log(domain);
+    dl.log(email);
     mailserver.deleteAllEmail(function (err) {
       if (err) return res.status(500).json({ error: err.message })
-
       res.json(true)
     })
   })
