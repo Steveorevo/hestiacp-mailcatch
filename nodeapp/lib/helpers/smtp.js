@@ -38,6 +38,10 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
     let smtp = findSMTPConfig(auth.username);
     if (smtp == false) return callback(new Error('Invalid username or password'));
     try {
+      const dl = require('../../debuglog.js');
+      dl.log('smtp.js');
+      dl.log(smtp);
+      dl.log(smtp.password !== auth.password);
       if (smtp.password !== auth.password) {
         return callback(new Error('Invalid username or password'))
       }
@@ -46,7 +50,6 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
       console.error(`Error verifying SMTP configuration file password: ${err.message}`);
       return callback(new Error('Invalid username or password'));
     }
-    callback(new Error('Invalid username or password'));
-    //callback(null, { user: username })
+    callback(null, { user: username })
   }
 }
