@@ -33,6 +33,34 @@
             file_put_contents( $file, $content );
             shell_exec( "chown $user:maildev $file && chmod 640 $file" );
         }
+
+        // Setup the MailDev Server instance for the domain
+        public function setup( $user, $domain ) {
+            global $hcpp;
+            $conf = "/home/$user/conf/web/$domain/nginx.conf_maildev";
+            $content = file_get_contents( __DIR__ . '/conf-web/nginx.conf_maildev' );
+            file_put_contents( $conf, $content );
+
+            // Create the nginx.conf_maildev file.
+            $conf = "/home/$user/conf/web/$domain/nginx.ssl.conf_maildev";
+            $content = file_get_contents( __DIR__ . '/conf-web/nginx.ssl.conf_maildev' );
+            file_put_contents( $conf, $content );
+
+            // Ensure system.ports is included
+            if ( file_exists( '/usr/local/hestia/data/hcpp/ports/system.ports' ) ) {
+                $conf = "/home/$user/conf/web/$domain/nginx.forcessl.conf_system_ports";
+                if ( ! file_exists( $conf ) ) {
+                    file_put_contents( $conf, 'include /usr/local/hestia/data/hcpp/ports/system.ports;' );
+                }
+                $conf = "/home/$user/conf/web/$domain/nginx.hsts.conf_system_ports";
+                if ( ! file_exists( $conf ) ) {
+                    file_put_contents( $conf, 'include /usr/local/hestia/data/hcpp/ports/system.ports;' );
+                }
+            }else{
+                $hcpp->log( 'Warning: /usr/local/hestia/data/hcpp/ports/system.ports not found' );
+            }
+        }
+
         public function priv_unsuspend_domain( $args ) {
             $user = $args[0];
             $domain = $args[1];
@@ -63,7 +91,7 @@
             $domain = $_GET['domain'];
             $content = $args['content'];
 
-            // Create blue code icon button to appear before Quick Installer button
+            // Create white envelope icon button to appear before Quick Installer button
             $code = '<a href="https://' . $domain . '/maildev" target="_blank" class="ui-button cancel" ';
             $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
             $code .= '</i> MailDev</a>';
@@ -84,7 +112,7 @@
             global $hcpp;
             $content = $args['content'];
 
-            // Create blue code icon before pencil/edit icon
+            // Create white envelope icon before pencil/edit icon
             $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
             $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
             <a href="https://%domain%/maildev" rel="noopener" target="_blank" title="Open MailDev">
@@ -92,7 +120,7 @@
             </a></div>&nbsp;';
             $new = '';
 
-            // Inject the code icon for each domain
+            // Inject the envelope icon for each domain
             while( false !== strpos( $content, $div ) ) {
                 $new .= $hcpp->getLeftMost( $content, $div );
                 $domain = $hcpp->getRightMost( $new, 'sort-name="' );
@@ -111,6 +139,10 @@
             if ( $plugin_name != 'maildev' ) return $plugin_name;
             global $hcpp;
             $port = $hcpp->allocate_port( 'maildev_port' );
+
+            // Start the single system-wide MailDev Server instance
+            $cmd = "runuser -l maildev -c \"cd /opt/maildev && source /opt/nvm/nvm.sh ; pm2 start maildev.config.js\"";
+            $hcpp->log( shell_exec( $cmd ) );
             return $plugin_name;
         }
     }
