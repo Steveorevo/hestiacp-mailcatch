@@ -66,7 +66,11 @@ function emitDeleteMail (socket) {
     dl.log('emitDeleteMail');
     dl.log(domain);
     dl.log(email);
-    if ( email.id.indexOf(domain + "_") == -1 ) return;
+    if ( email.id == 'all' ) {
+        if ( email.domain != domain ) return;
+    }else{
+        if ( email.id.indexOf(domain + "_") == -1 ) return;
+    } 
     socket.emit('deleteMail', email)
   }
 }
