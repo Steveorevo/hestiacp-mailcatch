@@ -103,9 +103,9 @@ function saveAttachment (id, attachment) {
  *  Handle smtp-server onData stream
  */
 function handleDataStream (stream, session, callback) {
-//   const dl = require('../debuglog.js');
-//   dl.log("handleDataStream");
-//   dl.log(session);
+  const dl = require('../debuglog.js');
+  dl.log("handleDataStream");
+  dl.log(session);
   const id = utils.makeId()
 
   const emlStream = fs.createWriteStream(
