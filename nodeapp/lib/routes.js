@@ -20,10 +20,10 @@ module.exports = function (app, mailserver, basePathname) {
             // Check domain
             let domain;
             for (let i = 0; i < req.rawHeaders.length; i++) {
-            if (req.rawHeaders[i].toLowerCase() === 'host' && i < req.rawHeaders.length - 1) {
-                domain = req.rawHeaders[i + 1];
-                break;
-            }
+              if (req.rawHeaders[i].toLowerCase() === 'host' && i < req.rawHeaders.length - 1) {
+                  domain = req.rawHeaders[i + 1];
+                  break;
+              }
             }
             let filteredEmails = [];
             for (let i = 0; i < emailList.length; i++) {
