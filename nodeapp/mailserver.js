@@ -4,6 +4,7 @@
  * MailDev - mailserver.js
  */
 const dl = require('./debuglog');
+dl.log("Hello");
 const SMTPServer = require('smtp-server').SMTPServer
 const MailParser = require('../vendor/mailparser-mit').MailParser
 const events = require('events')
