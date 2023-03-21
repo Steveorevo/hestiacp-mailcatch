@@ -27,9 +27,9 @@ module.exports = function (app, mailserver, basePathname) {
             }
             let filteredEmails = [];
             for (let i = 0; i < emailList.length; i++) {
-              //if ( emailList[i].source.includes(`/${domain}_`)) {
+              if ( emailList[i].source.includes(`/${domain}_`)) {
                   filteredEmails.push( emailList[i] );
-              //}
+              }
             }
             res.json(filteredEmails);
         })
