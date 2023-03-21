@@ -15,9 +15,6 @@ module.exports = function (app, mailserver, basePathname) {
 
     // Get all emails, enforce domain check
     router.get('/email', compression(), function (req, res) {
-        const dl = require('../debuglog.js');
-        dl.log("router.get('/email'");
-        dl.log(req);
         mailserver.getAllEmail(function (err, emailList) {
 
             // Check domain
