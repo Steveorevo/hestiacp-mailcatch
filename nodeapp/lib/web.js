@@ -43,9 +43,15 @@ function closeConnections () {
 
 function emitNewMail (socket) {
   return function (email) {
+    function getNested(obj, ...args) {
+        return args.reduce((obj, level) => obj && obj[level], obj)
+    }
+    let domain = getNested(socket, 'handshake', 'headers', 'host');
+    domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
     const dl = require('../debuglog.js');
     dl.log('emitNewMail');
-    dl.log(socket);
+    dl.log(domain);
+    dl.log(email);
     socket.emit('newMail', email)
   }
 }
