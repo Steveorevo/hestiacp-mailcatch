@@ -185,7 +185,8 @@ mailServer.create = function (
       onData: handleDataStream,
       logger: false,
       hideSTARTTLS: true,
-      disabledCommands: user && password ? ['STARTTLS'] : ['AUTH']
+      //disabledCommands: user && password ? ['STARTTLS'] : ['AUTH']
+      disabledCommands: ['STARTTLS']
     },
     hideExtensionOptions
   )
