@@ -104,6 +104,7 @@ function saveAttachment (id, attachment) {
  */
 function handleDataStream (stream, session, callback) {
   const dl = require('../debuglog.js');
+  dl.log(stream);
   dl.log(session);
   const id = utils.makeId()
 
