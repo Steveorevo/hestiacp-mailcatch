@@ -461,7 +461,7 @@ mailServer.deleteEmail = function (id, done) {
 mailServer.deleteAllEmail = function (domain, done) {
   logger.warn('Deleting all email')
   const {execSync} = require('child_process');
-  let cmd = 'rm -rf ' + mailserver.mailDir + '/' + domain + '_*';
+  let cmd = 'rm -rf ' + mailServer.mailDir + '/' + domain + '_*';
   execSync(cmd);
 
   //clearMailDir()
