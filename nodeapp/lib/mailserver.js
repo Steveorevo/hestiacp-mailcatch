@@ -464,8 +464,13 @@ mailServer.deleteAllEmail = function (domain, done) {
   let cmd = 'rm -rf ' + mailServer.mailDir + '/' + domain + '_*';
   execSync(cmd);
 
+  const fs = require('fs');
+  const path = require('path');
+  const files = fs.readdirSync(mailServer.mailDir); // read all files in folder
+  const emlFiles = files.filter(file => path.extname(file) === '.eml'); // filter for .eml files
+
   //clearMailDir()
-  store.length = 0
+  store.length = emlFiles.length; // return count of .eml files 
   eventEmitter.emit('delete', { id: 'all' })
   done(null, true)
 }
