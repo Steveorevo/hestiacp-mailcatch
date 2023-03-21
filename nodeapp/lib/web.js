@@ -58,23 +58,29 @@ function emitNewMail (socket) {
   }
 }
 
-function emitDeleteMail (socket) {
-  return function (email) {
-    let domain = getNested(socket, 'handshake', 'headers', 'host');
-    domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
-    const dl = require('../debuglog.js');
-    dl.log('emitDeleteMail');
-    dl.log(domain);
-    dl.log(email);
+// function emitDeleteMail (socket) {
+//   return function (email) {
+//     let domain = getNested(socket, 'handshake', 'headers', 'host');
+//     domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
+//     const dl = require('../debuglog.js');
+//     dl.log('emitDeleteMail');
+//     dl.log(domain);
+//     dl.log(email);
 
-    // Only notify the relevant domain
-    if ( email.id == 'all' ) {
-        if ( email.domain != domain ) return;
-    }else{
-        if ( email.id.indexOf(domain + "_") == -1 ) return;
-    } 
-    socket.emit('deleteMail', email)
-  }
+//     // Only notify the relevant domain
+//     if ( email.id == 'all' ) {
+//         if ( email.domain != domain ) return;
+//     }else{
+//         if ( email.id.indexOf(domain + "_") == -1 ) return;
+//     } 
+//     socket.emit('deleteMail', email)
+//   }
+// }
+
+function emitDeleteMail (socket) {
+    return function (email) {
+      socket.emit('deleteMail', email)
+    }
 }
 
 function webSocketConnection (mailserver) {
