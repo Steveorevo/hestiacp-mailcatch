@@ -147,6 +147,8 @@
             $hcpp->log( shell_exec( $cmd ) );
             return $plugin_name;
         }
+
+        // TODO: when domain is deleted, cleanup the domain in maildev; i.e. rm -rf /tmp/maildev/$domain_*
     }
     new MailDev();
 }
