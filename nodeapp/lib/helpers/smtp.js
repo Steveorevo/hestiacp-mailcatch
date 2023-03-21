@@ -18,13 +18,16 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
       const homeDir = '/home';
       const domainDir = path.join(homeDir, '*/web', domain, 'private');
       const smtpFilePath = path.join(domainDir, 'smtp.json');
-
+      const dl = require('../../debuglog.js');
+      dl.log('findSMTPConfig');
+      dl.log(smtpFilePath);
       try {
         const smtpFiles = glob.sync(smtpFilePath);
         for (const smtpFile of smtpFiles) {
           if (fs.existsSync(smtpFile)) {
             const content = fs.readFileSync(smtpFile, 'utf8');
             const smtpConfig = JSON.parse(content);
+            dl.log(smtpFile);
             return smtpConfig;
           }
         }
@@ -38,7 +41,6 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
     let smtp = findSMTPConfig(auth.username);
     if (smtp == false) return callback(new Error('Invalid username or password'));
     try {
-      const dl = require('../../debuglog.js');
       dl.log('smtp.js');
       dl.log(smtp);
       dl.log(smtp.password !== auth.password);
