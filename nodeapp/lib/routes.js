@@ -78,16 +78,18 @@ module.exports = function (app, mailserver, basePathname) {
     })
   })
 
-  // Delete all emails
+  // Delete all emails for a domain
   // TODO: create generic function to get revelent domain, pass it along to mailserver.deleteAllEmail
   router.delete('/email/all', function (req, res) {
     dl.log('router.delete(/email/all...');
-    //dl.log(domain);
+    dl.log(req);
     //dl.log(email);
-    mailserver.deleteAllEmail(function (err) {
-      if (err) return res.status(500).json({ error: err.message })
-      res.json(true)
-    })
+    // mailserver.deleteAllEmail(function (err) {
+    //   if (err) return res.status(500).json({ error: err.message })
+    //   res.json(true)
+    // })
+
+
   })
 
   // Delete email by id

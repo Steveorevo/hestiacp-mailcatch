@@ -28,6 +28,7 @@ const defaultMailDir = path.join(
   os.tmpdir(),
   `maildev-${process.pid.toString()}`
 )
+const dl = require('../debuglog.js');
 
 /**
  * Mail Server exports
