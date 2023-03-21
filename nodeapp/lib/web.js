@@ -66,6 +66,8 @@ function emitDeleteMail (socket) {
     dl.log('emitDeleteMail');
     dl.log(domain);
     dl.log(email);
+
+    // Only notify the relevant domain
     if ( email.id == 'all' ) {
         if ( email.domain != domain ) return;
     }else{
