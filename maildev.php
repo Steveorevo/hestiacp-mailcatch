@@ -65,12 +65,14 @@
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
+            $this->setup( $user, $domain );
             return $args;
         }
         public function new_web_domain_ready( $args ) {
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
+            $this->setup( $user, $domain );
             return $args;
         }
 
