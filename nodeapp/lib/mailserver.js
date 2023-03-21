@@ -480,7 +480,7 @@ mailServer.deleteAllEmail = function (domain, done) {
   
     const files = fs.readdirSync(mailServer.mailDir); // read all files in folder
     files.forEach((file) => {
-      const filePath = path.join(folderPath, file);
+      const filePath = path.join(mailServer.mailDir, file);
       const isEmlFile = fs.statSync(filePath).isFile() && path.extname(file) === '.eml';
       if (isEmlFile) {
         const fileName = path.basename(file, '.eml'); // remove .eml extension from filename
