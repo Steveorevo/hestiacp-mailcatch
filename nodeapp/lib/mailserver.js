@@ -457,24 +457,6 @@ mailServer.deleteEmail = function (id, done) {
 /**
  * Delete all emails in the store for the given domain
  */
-
-// mailServer.deleteAllEmail = function (domain, done) {
-//   logger.warn('Deleting all email')
-//   const {execSync} = require('child_process');
-//   let cmd = 'rm -rf ' + mailServer.mailDir + '/' + domain + '_*';
-//   execSync(cmd);
-
-// //   const fs = require('fs');
-// //   const path = require('path');
-// //   const files = fs.readdirSync(mailServer.mailDir); // read all files in folder
-// //   const emlFiles = files.filter(file => path.extname(file) === '.eml'); // filter for .eml files
-
-//   //clearMailDir()
-//   store.length = 0 //emlFiles.length; // return count of .eml files 
-//   eventEmitter.emit('delete', { id: 'all', domain: domain })
-//   done(null, true)
-// }
-
 mailServer.deleteAllEmail = function (domain, done) {
     logger.warn('Deleting all email for domain '  + domain)
   
