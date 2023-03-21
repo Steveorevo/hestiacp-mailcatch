@@ -455,16 +455,18 @@ mailServer.deleteEmail = function (id, done) {
 }
 
 /**
- * Delete all emails in the store
+ * Delete all emails in the store for the given domain
  */
 
-mailServer.deleteAllEmail = function (done) {
+mailServer.deleteAllEmail = function (domain, done) {
   logger.warn('Deleting all email')
+  const {execSync} = require('child_process');
+  let cmd = 'rm -rf ' + mailserver.mailDir + '/' + domain + '_*';
+  execSync(cmd);
 
-  clearMailDir()
+  //clearMailDir()
   store.length = 0
   eventEmitter.emit('delete', { id: 'all' })
-
   done(null, true)
 }
 

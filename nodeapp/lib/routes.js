@@ -86,12 +86,11 @@ module.exports = function (app, mailserver, basePathname) {
   router.delete('/email/all', function (req, res) {
     dl.log('router.delete(/email/all...');
     let domain = getDomainByReq(req);
-    if (domain !== '') {
-      let cmd = 'rm -rf ' + mailserver.mailDir + '/' + domain + '_*';
-      dl.log(cmd);
-      const {execSync} = require('child_process');
-      execSync(cmd);
-    }
+    if (domain == '') return;
+    mailserver.deleteAllEmail(domain, function (err) {
+      if (err) return res.status(500).json({ error: err.message })
+      res.json(true)
+    })
   })
 
   // Delete email by id
