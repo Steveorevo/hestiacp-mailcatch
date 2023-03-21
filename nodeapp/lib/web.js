@@ -41,23 +41,32 @@ function closeConnections () {
  * WebSockets
  */
 
+function getNested(obj, ...args) {
+    return args.reduce((obj, level) => obj && obj[level], obj)
+}
+
 function emitNewMail (socket) {
   return function (email) {
-    function getNested(obj, ...args) {
-        return args.reduce((obj, level) => obj && obj[level], obj)
-    }
     let domain = getNested(socket, 'handshake', 'headers', 'host');
     domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
-    const dl = require('../debuglog.js');
-    dl.log('emitNewMail');
-    dl.log(domain);
-    dl.log(email);
+    // const dl = require('../debuglog.js');
+    // dl.log('emitNewMail');
+    // dl.log(domain);
+    // dl.log(email);
+    if ( email.source.indexOf("/" + domain + "_") == -1 ) return;
     socket.emit('newMail', email)
   }
 }
 
 function emitDeleteMail (socket) {
   return function (email) {
+    let domain = getNested(socket, 'handshake', 'headers', 'host');
+    domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
+    // const dl = require('../debuglog.js');
+    // dl.log('emitNewMail');
+    // dl.log(domain);
+    // dl.log(email);
+    if ( email.source.indexOf("/" + domain + "_") == -1 ) return;
     socket.emit('deleteMail', email)
   }
 }
