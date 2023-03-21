@@ -12,13 +12,13 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
     const fs = require('fs');
     const path = require('path');
     const glob = require('glob');
+    const dl = require('../../debuglog.js');
 
     function findSMTPConfig(domain) {
       domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
       const homeDir = '/home';
       const domainDir = path.join(homeDir, '*/web', domain, 'private');
       const smtpFilePath = path.join(domainDir, 'smtp.json');
-      const dl = require('../../debuglog.js');
       dl.log('findSMTPConfig');
       dl.log(smtpFilePath);
       try {
@@ -38,6 +38,8 @@ smtpHelpers.createOnAuthCallback = function (username, password) {
         return false;
       }
     }
+    dl.log('auth');
+    dl.log(auth);
     let smtp = findSMTPConfig(auth.username);
     if (smtp == false) return callback(new Error('Invalid username or password'));
     try {
