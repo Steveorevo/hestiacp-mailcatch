@@ -400,7 +400,7 @@ mailServer.readAllEmail = function (domain, done) {
   const allUnread = store.filter(function (element) {
     return !element.read
   })
-  let = 0;
+  let i = 0;
   for (const email of allUnread) {
     if (email.source.includes('/' + domain + '_')) {
         email.read = true
