@@ -134,20 +134,20 @@ function handleDataStream (stream, session, callback) {
   })
 }
 
-/**
- * Delete everything in the mail directory
- */
-function clearMailDir () {
-  fs.readdir(mailServer.mailDir, function (err, files) {
-    if (err) throw err
+// /**
+//  * Delete everything in the mail directory
+//  */
+// function clearMailDir () {
+//   fs.readdir(mailServer.mailDir, function (err, files) {
+//     if (err) throw err
 
-    files.forEach(function (file) {
-      rimraf(path.join(mailServer.mailDir, file), function (err) {
-        if (err) throw err
-      })
-    })
-  })
-}
+//     files.forEach(function (file) {
+//       rimraf(path.join(mailServer.mailDir, file), function (err) {
+//         if (err) throw err
+//       })
+//     })
+//   })
+// }
 
 /**
  * Create mail directory
@@ -392,11 +392,13 @@ mailServer.getEmailHTML = function (id, baseUrl, done) {
 // }
 
 /**
- * Read all emails
+ * Read all emails for the given domain
  */
 
-mailServer.readAllEmail = function (done) {
+mailServer.readAllEmail = function (domain, done) {
+    dl.log('readAllEmail');
   const allUnread = store.filter(function (element) {
+    dl.log( element );
     return !element.read
   })
   for (const email of allUnread) {
@@ -466,8 +468,8 @@ mailServer.deleteAllEmail = function (domain, done) {
       const isEmlFile = fs.statSync(filePath).isFile() && path.extname(file) === '.eml';
       if (isEmlFile) {
         const fileName = path.basename(file, '.eml'); // remove .eml extension from filename
-        if ( fileName.includes(domain + '_') ) {
-            mailServer.deleteEmail(fileName, function() {});
+        if ( fileName.includes(domain + '_') ) { // delete one at a time by domain
+            mailServer.deleteEmail(fileName, function() {}); 
         }
       }
     });

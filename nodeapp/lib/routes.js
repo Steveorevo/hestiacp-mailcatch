@@ -74,9 +74,9 @@ module.exports = function (app, mailserver, basePathname) {
   // Read all emails
   router.patch('/email/read-all', function (req, res) {
     dl.log('router.patch(/email/read-all...');
-    //dl.log(domain);
-    //dl.log(email);
-    mailserver.readAllEmail(function (err, count) {
+    let domain = getDomainByReq(req);
+    if (domain == '') return;
+    mailserver.readAllEmail(domain, function (err, count) {
       if (err) return res.status(500).json({ error: err.message })
       res.json(count)
     })

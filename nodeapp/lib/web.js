@@ -73,12 +73,6 @@ function emitDeleteMail (socket) {
   }
 }
 
-// function emitDeleteMail (socket) {
-//     return function (email) {
-//       socket.emit('deleteMail', email)
-//     }
-// }
-
 function webSocketConnection (mailserver) {
   return function onConnection (socket) {
     const newHandlers = emitNewMail(socket)
