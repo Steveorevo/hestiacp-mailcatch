@@ -49,11 +49,9 @@ function emitNewMail (socket) {
   return function (email) {
     let domain = getNested(socket, 'handshake', 'headers', 'host');
     domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
-    // const dl = require('../debuglog.js');
-    // dl.log('emitNewMail');
-    // dl.log(domain);
-    // dl.log(email);
-    if ( email.source.indexOf("/" + domain + "_") == -1 ) return;
+
+    // Only notify relevant domain
+    if ( email.source.indexOf("/" + domain + "_") == -1 ) return; 
     socket.emit('newMail', email)
   }
 }
@@ -62,10 +60,6 @@ function emitDeleteMail (socket) {
   return function (email) {
     let domain = getNested(socket, 'handshake', 'headers', 'host');
     domain = domain.replace(/\.\.\/|\.\/|\\/g, ''); // Sanitize
-    const dl = require('../debuglog.js');
-    dl.log('emitDeleteMail');
-    dl.log(domain);
-    dl.log(email);
 
     // Only notify relevant domain
     if ( email.id.indexOf(domain + "_") == -1 ) return;

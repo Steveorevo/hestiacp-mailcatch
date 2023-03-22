@@ -28,7 +28,6 @@ const defaultMailDir = path.join(
   os.tmpdir(),
   `maildev-${process.pid.toString()}`
 )
-const dl = require('../debuglog.js');
 
 /**
  * Mail Server exports
@@ -396,7 +395,6 @@ mailServer.getEmailHTML = function (id, baseUrl, done) {
  */
 
 mailServer.readAllEmail = function (domain, done) {
-  dl.log('readAllEmail');
   const allUnread = store.filter(function (element) {
     return !element.read
   })

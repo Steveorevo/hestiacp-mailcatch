@@ -9,7 +9,6 @@ const pkg = require('../package.json')
 const { filterEmails } = require('./utils')
 
 const emailRegexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const dl = require('../debuglog.js');
 
 module.exports = function (app, mailserver, basePathname) {
   const router = express.Router()
@@ -73,7 +72,6 @@ module.exports = function (app, mailserver, basePathname) {
 
   // Read all emails
   router.patch('/email/read-all', function (req, res) {
-    dl.log('router.patch(/email/read-all...');
     let domain = getDomainByReq(req);
     if (domain == '') return;
     mailserver.readAllEmail(domain, function (err, count) {
@@ -84,7 +82,6 @@ module.exports = function (app, mailserver, basePathname) {
 
   // Delete all emails only for the given domain
   router.delete('/email/all', function (req, res) {
-    dl.log('router.delete(/email/all...');
     let domain = getDomainByReq(req);
     if (domain == '') return;
     mailserver.deleteAllEmail(domain, function (err) {
