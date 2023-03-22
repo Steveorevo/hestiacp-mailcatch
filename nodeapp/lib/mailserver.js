@@ -396,15 +396,19 @@ mailServer.getEmailHTML = function (id, baseUrl, done) {
  */
 
 mailServer.readAllEmail = function (domain, done) {
-    dl.log('readAllEmail');
+  dl.log('readAllEmail');
   const allUnread = store.filter(function (element) {
-    dl.log( element );
     return !element.read
   })
+  let = 0;
   for (const email of allUnread) {
-    email.read = true
+    if (email.source.includes('/' + domain + '_')) {
+        email.read = true
+        i++;
+    }
   }
-  done(null, allUnread.length)
+  //done(null, allUnread.length)
+  done(null, i);
 }
 
 /**
