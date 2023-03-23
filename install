@@ -1,19 +1,12 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
-adduser maildev --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+adduser mailcatch --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 mkdir /opt
 cd /opt
-git clone https://github.com/xavierpriour/catchmail-node ./catchmail-node
-chown -R maildev:maildev /opt/catchmail-node
-git clone https://github.com/maildev/maildev ./maildev -b v2.0.5
-chown -R maildev:maildev /opt/maildev
-
-runuser -l maildev -c "cd /opt/maildev && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
-runuser -l maildev -c "cd /opt/catchmail-node && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
-
-cd /usr/local/hestia/plugins/maildev
-rsync -r ./nodeapp/ /opt/maildev/
-chown -R maildev:maildev /opt/maildev
-
-/usr/local/hestia/bin/v-add-user-notification admin "MailDev" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailDev has finished installing."
+git clone https://github.com/maildev/maildev ./mailcatch -b v2.0.5
+cd /usr/local/hestia/plugins/mailcatch
+rsync -r ./src/ /opt/mailcatch
+chown -R mailcatch:mailcatch /opt/mailcatch
+runuser -l mailcatch -c "cd /opt/mailcatch && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
+/usr/local/hestia/bin/v-add-user-notification admin "MailCatch" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailCatch has finished installing."

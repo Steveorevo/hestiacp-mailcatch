@@ -1,22 +1,22 @@
 <?php
 /**
- * Extend the HestiaCP Pluginable object with our MailDev object for
- * our system-wide MailDev service.
+ * Extend the HestiaCP Pluginable object with our MailCatch object for
+ * our system-wide MailCatch service.
  * 
  * @version 1.0.0
  * @license GPL-3.0
- * @link https://github.com/steveorevo/hestiacp-maildev
+ * @link https://github.com/steveorevo/hestiacp-mailcatch
  * 
  */
 
- if ( ! class_exists( 'MailDev') ) {
-    class MailDev {
+ if ( ! class_exists( 'MailCatch') ) {
+    class MailCatch {
         /**
          * Constructor, listen for the render events
          */
         public function __construct() {
             global $hcpp;
-            $hcpp->maildev = $this;
+            $hcpp->mailcatch = $this;
             $hcpp->add_action( 'render_page', [ $this, 'render_page' ] );
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
@@ -31,19 +31,19 @@
             $password = $hcpp->nodeapp->random_chars( 16 );
             $content = "{\n  \"username\": \"$domain\",\n  \"password\": \"$password\",\n  \"port\": 2525\n}";
             file_put_contents( $file, $content );
-            shell_exec( "chown $user:maildev $file && chmod 640 $file" );
+            shell_exec( "chown $user:mailcatch $file && chmod 640 $file" );
         }
 
-        // Setup the MailDev Server instance for the domain
+        // Setup the MailCatch Server instance for the domain
         public function setup( $user, $domain ) {
             global $hcpp;
-            $conf = "/home/$user/conf/web/$domain/nginx.conf_maildev";
-            $content = file_get_contents( __DIR__ . '/conf-web/nginx.conf_maildev' );
+            $conf = "/home/$user/conf/web/$domain/nginx.conf_mailcatch";
+            $content = file_get_contents( __DIR__ . '/conf-web/nginx.conf_mailcatch' );
             file_put_contents( $conf, $content );
 
-            // Create the nginx.conf_maildev file.
-            $conf = "/home/$user/conf/web/$domain/nginx.ssl.conf_maildev";
-            $content = file_get_contents( __DIR__ . '/conf-web/nginx.ssl.conf_maildev' );
+            // Create the nginx.conf_mailcatch file.
+            $conf = "/home/$user/conf/web/$domain/nginx.ssl.conf_mailcatch";
+            $content = file_get_contents( __DIR__ . '/conf-web/nginx.ssl.conf_mailcatch' );
             file_put_contents( $conf, $content );
 
             // Ensure system.ports is included
@@ -76,7 +76,7 @@
             return $args;
         }
 
-        // Add MailDev icon next to our web domain list and domain edit pages.
+        // Add MailCatch icon next to our web domain list and domain edit pages.
         public function render_page( $args ) {
             if ( $args['page'] == 'list_web' ) {
                 $args = $this->render_list_web( $args );
@@ -87,16 +87,16 @@
             return $args;
        }
 
-       // Add MailDev icon to our web domain edit page.
+       // Add MailCatch icon to our web domain edit page.
        public function render_edit_web( $args ) {
             global $hcpp;
             $domain = $_GET['domain'];
             $content = $args['content'];
 
             // Create white envelope icon button to appear before Quick Installer button
-            $code = '<a href="https://' . $domain . '/maildev" target="_blank" class="ui-button cancel" ';
+            $code = '<a href="https://' . $domain . '/mailcatch" target="_blank" class="ui-button cancel" ';
             $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
-            $code .= '</i> MailDev</a>';
+            $code .= '</i> MailCatch</a>';
 
             // Inject the button into the page's toolbar buttonstrip
             $quick = '"fas fa-magic status-icon blue';
@@ -109,7 +109,7 @@
             return $args;
        }
 
-       // Add MailDev icon to our web domain list page.
+       // Add MailCatch icon to our web domain list page.
        public function render_list_web( $args ) {
             global $hcpp;
             $content = $args['content'];
@@ -117,7 +117,7 @@
             // Create white envelope icon before pencil/edit icon
             $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
             $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
-            <a href="https://%domain%/maildev" rel="noopener" target="_blank" title="Open MailDev">
+            <a href="https://%domain%/mailcatch" rel="noopener" target="_blank" title="Open MailCatch">
                 <i class="fas fa-envelope status-icon highlight status-icon dim"></i>
             </a></div>&nbsp;';
             $new = '';
@@ -138,17 +138,17 @@
 
         // Allocate port on and start server on install
         public function hcpp_plugin_installed( $plugin_name ) {
-            if ( $plugin_name != 'maildev' ) return $plugin_name;
+            if ( $plugin_name != 'mailcatch' ) return $plugin_name;
             global $hcpp;
-            $port = $hcpp->allocate_port( 'maildev_port' );
+            $port = $hcpp->allocate_port( 'mailcatch_port' );
 
-            // Start the single system-wide MailDev Server instance
-            $cmd = "runuser -l maildev -c \"cd /opt/maildev && source /opt/nvm/nvm.sh ; pm2 start maildev.config.js\"";
+            // Start the single system-wide MailCatch Server instance
+            $cmd = "runuser -l mailcatch -c \"cd /opt/mailcatch && source /opt/nvm/nvm.sh ; pm2 start mailcatch.config.js\"";
             $hcpp->log( shell_exec( $cmd ) );
             return $plugin_name;
         }
 
-        // TODO: when domain is deleted, cleanup the domain in maildev; i.e. rm -rf /tmp/maildev/$domain_*
+        // TODO: when domain is deleted, cleanup the domain in mailcatch; i.e. rm -rf /tmp/mailcatch/$domain_*
     }
-    new MailDev();
+    new MailCatch();
 }
