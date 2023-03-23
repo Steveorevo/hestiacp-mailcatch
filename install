@@ -3,9 +3,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 adduser mailcatcher --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 mkdir /opt
-cd /opt
+cd /opt || exit
 git clone https://github.com/maildev/maildev ./mailcatcher -b v2.0.5
-cd /usr/local/hestia/plugins/mailcatcher
+cd /usr/local/hestia/plugins/mailcatcher || exit
 rsync -r ./src/ /opt/mailcatcher
 chown -R mailcatcher:mailcatcher /opt/mailcatcher
 runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
