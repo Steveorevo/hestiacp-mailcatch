@@ -1,6 +1,6 @@
 #!/bin/bash
-runuser -l mailcatch -c "cd /opt/mailcatch && source /opt/nvm/nvm.sh && pm2 delete mailcatch ; pm2 save --force"
-rm -rf /opt/mailcatch
-deluser mailcatch
-rm -rf /home/mailcatch
-php -r "include('/usr/local/hestia/web/pluginable.php');global \$hcpp;\$hcpp->delete_port('mailcatch_port');"
+runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && pm2 delete mailcatcher ; pm2 save --force"
+rm -rf /opt/mailcatcher
+deluser mailcatcher
+rm -rf /home/mailcatcher
+php -r "include('/usr/local/hestia/web/pluginable.php');global \$hcpp;\$hcpp->delete_port('mailcatcher_port');"

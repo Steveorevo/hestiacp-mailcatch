@@ -1,12 +1,12 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
-adduser mailcatch --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+adduser mailcatcher --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 mkdir /opt
 cd /opt
-git clone https://github.com/maildev/maildev ./mailcatch -b v2.0.5
-cd /usr/local/hestia/plugins/mailcatch
-rsync -r ./src/ /opt/mailcatch
-chown -R mailcatch:mailcatch /opt/mailcatch
-runuser -l mailcatch -c "cd /opt/mailcatch && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
-/usr/local/hestia/bin/v-add-user-notification admin "MailCatch" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailCatch has finished installing."
+git clone https://github.com/maildev/maildev ./mailcatcher -b v2.0.5
+cd /usr/local/hestia/plugins/mailcatcher
+rsync -r ./src/ /opt/mailcatcher
+chown -R mailcatcher:mailcatcher /opt/mailcatcher
+runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
+/usr/local/hestia/bin/v-add-user-notification admin "MailCatcher" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailCatcher has finished installing."
