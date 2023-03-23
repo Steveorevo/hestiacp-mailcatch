@@ -9,4 +9,4 @@ cd /usr/local/hestia/plugins/mailcatcher || exit
 rsync -r ./src/ /opt/mailcatcher
 chown -R mailcatcher:mailcatcher /opt/mailcatcher
 runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && nvm use v16 && npm install"
-/usr/local/hestia/bin/v-add-user-notification admin "MailCatcher" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailCatcher has finished installing."
+/usr/local/hestia/bin/v-add-user-notification admin "MailCatcher" "<span style=\"color:#4994CE;\"><i class=\"fas fa-envelope\"></i></span> MailCatcher plugin has finished installing."

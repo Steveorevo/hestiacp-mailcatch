@@ -1,15 +1,15 @@
 module.exports = {
     apps: (function() {
 
-        // Obtain maildev details
+        // Obtain mailcatcher details
         const fs = require('fs');
         const {execSync} = require('child_process');
         let hostname = execSync('/bin/bash -c "hostname -f"').toString().trim();
         hostname = hostname.split('.').slice(-2).join('.');
         let details = {};
-        details.cwd = '/opt/maildev';
-        details._app = 'maildev';
-        details.name = details._app + '-maildev' + hostname;
+        details.cwd = '/opt/mailcatcher';
+        details._app = 'mailcatcher';
+        details.name = details._app + '-mailcatcher' + hostname;
         details.script = details.cwd + '/' + details._app + '.js';
         details.watch = ['.restart'];
         details.ignore_watch = [];
@@ -42,7 +42,7 @@ module.exports = {
         }
         port = parseInt(port.trim().split(' ').pop());
         details._port = port;
-        details.args = "-w " + details._port + " -s 2525 --base-pathname /maildev --mail-directory /tmp/maildev";
+        details.args = "-w " + details._port + " -s 2525 --base-pathname /mailcatcher --mail-directory /tmp/mailcatcher";
 
         // Check for debug mode and pass debug port as port + 3000 offset
         if ( fs.existsSync(details.cwd + '/.debug') ) {
