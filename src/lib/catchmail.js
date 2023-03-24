@@ -34,6 +34,7 @@ function CatchMail() {
   this.send = function(message, callback) {
 
     // Find domain's SMTP credentials
+    const fs = require('fs');
     let mailcatcher_domain = process.env.MAILCATCHER_DOMAIN; // TODO: guess domain for nodejs processes?
     const smtp_json = '/home/' + process.env.USER + '/web/' + mailcatcher_domain + '/private/smtp.json';
     if ( fs.existsSync(smtp_json) ) {
