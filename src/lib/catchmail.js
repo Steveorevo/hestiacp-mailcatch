@@ -36,17 +36,20 @@ function CatchMail() {
     // Find domain's SMTP credentials
     const fs = require('fs');
     let mailcatcher_domain = process.env.MAILCATCHER_DOMAIN; // TODO: guess domain for nodejs processes?
-    let smtp_json = '/home/' + process.env.USER + '/web/' + mailcatcher_domain + '/private/smtp.json';
-    if ( fs.existsSync(smtp_json) ) {
-        smtp_json = JSON.parse(fs.readFileSync(smtp_json, 'utf8'));
+    let mailcatcher_pw = '';
+    const smtp_file = '/home/' + process.env.USER + '/web/' + mailcatcher_domain + '/private/smtp.json';
+    if ( fs.existsSync(smtp_file) ) {
+        let smtp_cred = JSON.parse(fs.readFileSync(smtp_file, 'utf8'));
+        mailcatcher_domain = smtp_cred.username;
+        mailcatcher_pw = smtp_cred.password;
     }
     var smtpOptions = {
         port: this.option('port'),
         host: this.option('ip'),
         ignoreTLS: true, // to avoid CERT_HAS_EXPIRED
         auth: { 
-            user: smtp_json.username,
-            pass: smtp_json.password
+            user: mailcatcher_domain,
+            pass: mailcatcher_pw
         }
     };
     var transporter = nodemailer.createTransport(smtpOptions);
