@@ -13,4 +13,7 @@ runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && nvm 
 mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
 
 # Swap out sendmail for mailcatcher
-ln -s /opt/mailcatcher/bin/cli.js /usr/sbin/sendmail
+if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
+    mv /usr/sbin/sendmail.pre-mailcatcher-sav /usr/sbin/sendmail
+    ln -s /opt/mailcatcher/bin/cli.js /usr/sbin/sendmail
+fi
