@@ -29,6 +29,7 @@ var CLI = function() {
         .option('--dump', 'Display options (in JSON) and do not send anything')
         .option('-oi', 'ignored')
         .option('-t', 'ignored')
+        .option('-v', 'ignored')
         .option('-q', 'ignored')
         .parse(process.argv);
 
