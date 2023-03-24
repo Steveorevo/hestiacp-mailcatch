@@ -15,5 +15,5 @@ mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
 # Swap out sendmail for mailcatcher
 if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
     mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
-    ln -s /opt/mailcatcher/bin/cli.js /usr/sbin/sendmail
 fi
+ln -s /opt/mailcatcher/bin/cli.js /usr/sbin/sendmail

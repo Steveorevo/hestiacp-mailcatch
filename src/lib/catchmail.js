@@ -36,7 +36,7 @@ function CatchMail() {
         port: this.option('port'),
         host: this.option('ip'),
         ignoreTLS: true, // to avoid CERT_HAS_EXPIRED
-        auth: {
+        auth: { // TODO: obtain from /home/<username>/web/<domain>/private/smtp.json
             user: "test2.openmy.info",
             pass: "T0yjYzKn7ehlfQbH"
         }
