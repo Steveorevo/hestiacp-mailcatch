@@ -24,7 +24,7 @@ var CLI = function() {
         .description("Multitenancy implementation of catchmail-node's sendmail compatible transport agent for HestiaCP")
         .version(pkg.version)
         .usage('[options] <email>')
-        .argument('<email>', 'recipient email address')
+        .argument('[email]', 'recipient email address')
         .option('--ip [ip or hostname]', 'Set IP/hostname of SMTP server to send to')
         .option('--port [port]', 'Set port of SMTP server to send to', parseInt)
         .option('-f, --from [from]', 'Set sending address')
@@ -92,6 +92,12 @@ var CLI = function() {
               }
             });
           });
+          
+          // Accept to recipient in first argument
+          if (program.args.length == 1 && message.trim(),startsWith('To: ') == false) {
+            message = 'To: ' + program.args[0] + "\n" + message;
+          }
+
           // send the email source to the parser
           mp.write(message);
           mp.end();
