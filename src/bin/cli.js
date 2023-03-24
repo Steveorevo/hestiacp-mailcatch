@@ -20,16 +20,19 @@ var CLI = function() {
     }
 
     program
+        .name('sendmail')
+        .description("Multitenancy implementation of catchmail-node's sendmail compatible transport agent for HestiaCP")
         .version(pkg.version)
-        .usage('<options> message text')
+        .usage('[options] <email>')
+        .argument('<email>', 'recipient email address')
         .option('--ip [ip or hostname]', 'Set IP/hostname of SMTP server to send to')
         .option('--port [port]', 'Set port of SMTP server to send to', parseInt)
         .option('-f, --from [from]', 'Set sending address')
-        .option('--verbose', 'Display sent message')
+        .option('-v, --verbose', 'Display sent message')
         .option('--dump', 'Display options (in JSON) and do not send anything')
-        .option('-oi', 'ignored')
+        .option('-o', 'ignored')
+        .option('-i', 'ignored')
         .option('-t', 'ignored')
-        .option('-v', 'ignored')
         .option('-q', 'ignored')
         .parse(process.argv);
 
