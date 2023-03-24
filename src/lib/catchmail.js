@@ -42,6 +42,8 @@ function CatchMail() {
         let smtp_cred = JSON.parse(fs.readFileSync(smtp_file, 'utf8'));
         mailcatcher_domain = smtp_cred.username;
         mailcatcher_pw = smtp_cred.password;
+    }else{
+        console.log('SMTP credentials file not found: ' + smtp_file + ' is MAILCATCHER_DOMAIN env. variable set?');
     }
     var smtpOptions = {
         port: this.option('port'),
