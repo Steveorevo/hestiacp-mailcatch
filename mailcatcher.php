@@ -142,15 +142,11 @@
             return $args;
        }
 
-        // Allocate port on and start server on install
+        // Allocate port on install
         public function hcpp_plugin_installed( $plugin_name ) {
             if ( $plugin_name != 'mailcatcher' ) return $plugin_name;
             global $hcpp;
             $port = $hcpp->allocate_port( 'mailcatcher_port' );
-
-            // Start the single system-wide MailCatcher Server instance
-            $cmd = 'runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"';
-            $hcpp->log( shell_exec( $cmd ) );
             return $plugin_name;
         }
 
