@@ -66,7 +66,7 @@ var CLI = function() {
             if (mail.hasOwnProperty('from')) {
               if (mail.from.length > 0) {
                 if (mail.from[0].hasOwnProperty('name')) {
-                  if ( mail.from[0].name = '') {
+                  if ( mail.from[0].name == '') {
                     mail.from[0].name = options.from;
                   }
                 }
