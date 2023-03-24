@@ -32,13 +32,20 @@ function CatchMail() {
    * @param {Object} message passed straight to nodemailer transport.send
    */
   this.send = function(message, callback) {
+
+    // Find domain's SMTP credentials
+    let mailcatcher_domain = process.env.MAILCATCHER_DOMAIN; // TODO: guess domain for nodejs processes?
+    const smtp_json = '/home/' + process.env.USER + '/web/' + mailcatcher_domain + '/private/smtp.json';
+    if ( fs.existsSync(smtp_json) ) {
+        smtp_json = JSON.parse(fs.readFileSync(smtp_json, 'utf8'));
+    }
     var smtpOptions = {
         port: this.option('port'),
         host: this.option('ip'),
         ignoreTLS: true, // to avoid CERT_HAS_EXPIRED
-        auth: { // TODO: obtain from /home/<username>/web/<domain>/private/smtp.json
-            user: "test2.openmy.info",
-            pass: "T0yjYzKn7ehlfQbH"
+        auth: { 
+            user: smtp_json.username,
+            pass: smtp_json.password
         }
     };
     var transporter = nodemailer.createTransport(smtpOptions);
