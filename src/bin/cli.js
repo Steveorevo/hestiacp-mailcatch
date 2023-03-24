@@ -94,7 +94,7 @@ var CLI = function() {
           });
           
           // Accept to recipient in first argument
-          if (program.args.length == 1 && message.trim(),startsWith('To: ') == false) {
+          if (program.args.length == 1 && message.trim().startsWith('To: ') == false) {
             message = 'To: ' + program.args[0] + "\n" + message;
           }
 
