@@ -6,7 +6,7 @@ module.exports = new CatchMail();
 function CatchMail() {
   var _defaults = {
     ip: '127.0.0.1',
-    port: 1025
+    port: 2525
   };
 
   var _opt = {};
@@ -33,9 +33,13 @@ function CatchMail() {
    */
   this.send = function(message, callback) {
     var smtpOptions = {
-      port: this.option('port'),
-      host: this.option('ip'),
-      ignoreTLS: true // to avoid CERT_HAS_EXPIRED
+        port: this.option('port'),
+        host: this.option('ip'),
+        ignoreTLS: true, // to avoid CERT_HAS_EXPIRED
+        auth: {
+            user: "test2.openmy.info",
+            pass: "T0yjYzKn7ehlfQbH"
+        }
     };
     var transporter = nodemailer.createTransport(smtpOptions);
     transporter.sendMail(message, function(error, info) {
