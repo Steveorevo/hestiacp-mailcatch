@@ -72,14 +72,17 @@ var CLI = function() {
           logError('missing message text');
           process.exit(70); // EX_SOFTWARE
         } else {
-          // todo parse message to build msg object
+
+          // Parse and build the message
           var mp = new MailParser();
           mp.on('end', function(mail) {
-            //console.log("From:", mail.from); //[{address:'sender@example.com',name:'Sender Name'}]
-            //console.log("Subject:", mail.subject); // Hello world!
-            //console.log("Text body:", mail.text); // How are you today?
-            // we have to remove raw header property,
-            // or it will be parsed again by nodemailer and dupe all header fields
+            if (mail.hasOwnProperty('from')) {
+              if (mail.from.hasOwnProperty('name')) {
+                if (mail.from == '') {
+                  mail.from = options.from;
+                }
+              }
+            }
             mail.headers = null;
             catchmail.send(mail, function(error, info) {
               if (error) {
