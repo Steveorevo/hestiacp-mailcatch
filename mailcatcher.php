@@ -143,7 +143,7 @@
             $port = $hcpp->allocate_port( 'mailcatcher_port' );
 
             // Start the single system-wide MailCatcher Server instance
-            $cmd = "runuser -l mailcatcher -c \"cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js\"";
+            $cmd = 'runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"';
             $hcpp->log( shell_exec( $cmd ) );
             return $plugin_name;
         }
