@@ -36,33 +36,18 @@ var CLI = function() {
         .option('-q', 'ignored')
         .parse(process.argv);
 
-    // no args provided -> display usage
-    //if (!process.argv.slice(2).length) {
-    //  program.help();
-    //}
-
-    if (program.ip) { options.ip = program.ip; }
-    if (program.port) { options.port = program.port; }
-    if (program.from) { options.from = program.from; }
-    if (program.verbose) { options.verbose = true; }
-
-    //message = program.args.join(' ');
-    //console.log('message ' + message);
-
+    const options = program.opts();
     process.stdin.setEncoding('utf8');
-
     process.stdin.on('readable', function() {
       var chunk = process.stdin.read();
       if (chunk !== null) {
         message += chunk;
-        //process.stdout.write('data: ' + chunk);
       }
     });
 
     process.stdin.on('end', function() {
       catchmail.init(options);
       if (program.dump) {
-        // if --dump just display options
         var opt = catchmail.options();
         if (message) { opt.message = message; }
         console.log(JSON.stringify(opt));
