@@ -76,6 +76,8 @@ var CLI = function() {
           // Parse and build the message
           var mp = new MailParser();
           mp.on('end', function(mail) {
+
+            // Support --from option
             if (mail.hasOwnProperty('from')) {
               if (mail.from.hasOwnProperty('name')) {
                 if (mail.from == '') {
