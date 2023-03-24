@@ -59,6 +59,12 @@
             }else{
                 $hcpp->log( 'Warning: /usr/local/hestia/data/hcpp/ports/system.ports not found' );
             }
+
+            // Start mailcatcher if not started
+            if ( !is_dir('/home/mailcatcher/.pm2') ) {
+                $cmd = 'runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"';
+                shell_exec( $cmd );
+            }
         }
 
         public function priv_unsuspend_domain( $args ) {
@@ -72,7 +78,7 @@
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
-            $this->setup( $user, $domain );
+            $this->setup( $user, $domain );           
             return $args;
         }
 
