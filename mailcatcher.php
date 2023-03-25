@@ -26,9 +26,7 @@
 
         // Set MAILCATCHER_DOMAIN for PM2 NodeApp processes
         public function nodeapp_startup_services( $args ) {
-            $cmd = $args['cmd'];
-            $domain = $args['domain'];
-            $cmd = 'export MAILCATCHER_DOMAIN="' . $domain . '" && ' . $cmd;
+            $args['cmd'] = 'export MAILCATCHER_DOMAIN="' . $args['domain'] . '" && ' . $args['cmd'];
             return $args;
         }
 
