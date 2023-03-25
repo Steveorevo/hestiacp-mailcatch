@@ -24,11 +24,11 @@
             $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
         }
 
-        // Set MAILCATCHER_DOMAIN for PM2 NodeApp processes
+        // Set MAILCATCHER_DOMAIN for PM2 started processes
         public function nodeapp_startup_services( $args ) {
             global $hcpp;
             $hcpp->log('mailcatcher->nodeapp_startup_services');
-            $args['cmd'] = 'export MAILCATCHER_DOMAIN="' . $args['domain'] . '" && ' . $args['cmd'];
+            $args['cmd'] = str_replace( 'pm2 start ', 'export MAILCATCHER_DOMAIN="' . $args['domain'] . '" && pm2 start ', $args['cmd'] );
             $hcpp->log($args);
             return $args;
         }
