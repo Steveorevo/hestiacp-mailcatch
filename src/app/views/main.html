@@ -1,7 +1,10 @@
 <div class="main-content">
     <h2>
-        Now receiving all emails on port {{ config.smtpPort }}
+        Now receiving all emails on port {{ config.smtpPort }} for {{ config.domain }}.
     </h2>
+    <p>
+        Credentials for your SMTP server can be found at your private/smtp.json file.
+    </p>    
     <p>
         For information on how to send emails from your application, please refer the "<a href="https://code.gdn/docs/mailcatcher" target="_blank">Using MailCatcher</a>".
     </p>

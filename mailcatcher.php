@@ -18,9 +18,18 @@
             global $hcpp;
             $hcpp->mailcatcher = $this;
             $hcpp->add_action( 'render_page', [ $this, 'render_page' ] );
+            $hcpp->add_action( 'nodeapp_startup_services', [ $this, 'nodeapp_startup_services' ] );
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
+        }
+
+        // Set MAILCATCHER_DOMAIN for PM2 NodeApp processes
+        public function nodeapp_startup_services( $args ) {
+            $cmd = $args['cmd'];
+            $domain = $args['domain'];
+            $cmd = 'export MAILCATCHER_DOMAIN="' . $domain . '" && ' . $cmd;
+            return $args;
         }
 
         // Ensure private/smtp.json is present the domain
