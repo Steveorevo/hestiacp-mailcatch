@@ -110,12 +110,15 @@
             $content = $args['content'];
 
             // Create white envelope icon button to appear before Quick Installer button
-            $code = '<a href="https://' . $domain . '/mailcatcher" target="_blank" class="ui-button cancel" ';
+            $code = '<a href="https://' . $domain . '/mailcatcher" target="_blank" class="button button-secondary ui-button cancel" ';
             $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
             $code .= '</i> MailCatcher</a>';
 
             // Inject the button into the page's toolbar buttonstrip
-            $quick = '"fas fa-magic status-icon blue';
+            $quick = '"fas fa-magic status-icon blue'; // HestiaCP 1.6.X
+            if ( strpos( $content, $quick ) === false ) {
+                $quick = '"fas fa-magic icon-blue'; // HestiaCP 1.7.X
+            }
             $before = $hcpp->getLeftMost( $content, $quick );
             $after = $quick . $hcpp->delLeftMost( $content, $quick );
             $after = '<a href' . $hcpp->getRightMost( $before, '<a href' ) . $after;
@@ -134,7 +137,7 @@
             $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
             $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
             <a href="https://%domain%/mailcatcher" rel="noopener" target="_blank" title="Open MailCatcher">
-                <i class="fas fa-envelope status-icon highlight status-icon dim"></i>
+                <i class="fas fa-envelope status-icon highlight status-icon dim icon-dim mailcatcher"></i>
             </a></div>&nbsp;';
             $new = '';
 
@@ -148,7 +151,7 @@
                 $content = $hcpp->delLeftMost( $content, '</div>' );
             }
             $new .= $content;
-            $args['content'] = $new . '<style>.l-unit-toolbar__col{min-width: 200px;}</style>';
+            $args['content'] = $new . '<style>.l-unit-toolbar__col{min-width: 200px;}i.mailcatcher:hover{color: white;}</style>';
             return $args;
        }
 
