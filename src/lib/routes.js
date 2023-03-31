@@ -146,7 +146,8 @@ module.exports = function (app, mailserver, basePathname) {
       version: pkg.version,
       smtpPort: mailserver.port,
       isOutgoingEnabled: mailserver.isOutgoingEnabled(),
-      outgoingHost: mailserver.getOutgoingHost()
+      outgoingHost: mailserver.getOutgoingHost(),
+      domain: getDomainByReq(req)
     })
   })
 
