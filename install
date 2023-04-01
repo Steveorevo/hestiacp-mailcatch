@@ -17,5 +17,6 @@ if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
     mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
 fi
 ln -s /opt/mailcatcher/bin/cli.js /usr/sbin/sendmail
+ln -s /usr/sbin/sendmail /usr/local/bin/sendmail
 
 /usr/local/hestia/bin/v-add-user-notification admin "MailCatcher" "<span style=\"color:white;\"><i class=\"fas fa-envelope\"></i></span> MailCatcher plugin has finished installing."

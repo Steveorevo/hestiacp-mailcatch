@@ -10,3 +10,4 @@ if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
    rm -f /usr/sbin/sendmail
    mv /usr/sbin/sendmail.pre-mailcatcher-sav /usr/sbin/sendmail
 fi
+unlink /usr/local/bin/sendmail
