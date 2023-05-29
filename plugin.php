@@ -1,8 +1,11 @@
 <?php
 /**
  * Plugin Name: MailCatcher
- * Plugin URI: https://github.com/steveorevo/hestiacp-mailcatcher
+ * Plugin URI: https://github.com/virtuosoft-dev/hcpp-mailcatcher
  * Description: MailCatcher furnishes a multi-tenant interface for simulated email services, sendmail emulation, and SMTP services for each hosted domain.
+ * Version: 1.0.0
+ * Author: Virtuosoft (Stephen J. Carnam)
+ * 
  */
 
 // Register the install and uninstall scripts
