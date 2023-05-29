@@ -3,13 +3,10 @@ module.exports = {
 
         // Obtain mailcatcher details
         const fs = require('fs');
-        const {execSync} = require('child_process');
-        let hostname = execSync('/bin/bash -c "hostname -f"').toString().trim();
-        hostname = hostname.split('.').slice(-2).join('.');
         let details = {};
         details.cwd = '/opt/mailcatcher';
         details._app = 'mailcatcher';
-        details.name = details._app + '-' + hostname;
+        details.name = details._app + '_app';
         details.script = details.cwd + '/' + details._app + '.js';
         details.watch = ['.restart'];
         details.ignore_watch = [];
@@ -22,6 +19,7 @@ module.exports = {
         if (fs.existsSync(nvmrc)) {
             ver = fs.readFileSync(nvmrc, {encoding: 'utf8', flat: 'r'}).trim();
         }
+        const {execSync} = require('child_process');
         ver = execSync('/bin/bash -c "source /opt/nvm/nvm.sh && nvm which ' + ver + '"').toString().trim();
         if (!fs.existsSync(ver)) {
             console.error(ver);

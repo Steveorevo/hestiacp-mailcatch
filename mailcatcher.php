@@ -71,10 +71,9 @@
             }
 
             // Start mailcatcher if not started
-            if ( !is_dir('/home/mailcatcher/.pm2') ) {
-                $cmd = 'runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"';
-                shell_exec( $cmd );
-            }
+            $cmd = 'if ! runuser -l "mailcatcher" -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
+            $cmd .= 'then runuser -l "mailcatcher" -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"; fi';
+            shell_exec( $cmd );
         }
 
         public function priv_unsuspend_domain( $args ) {
