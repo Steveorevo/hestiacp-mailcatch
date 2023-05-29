@@ -34,6 +34,7 @@ Be sure to logout and login again to your Hestia Control Panel as the admin user
 sudo -s
 cd /usr/local/hestia/plugins/mailcatcher
 ./install
+php -r 'require_once("/usr/local/hestia/web/pluginable.php");global $hcpp;$hcpp->do_action("hcpp_plugin_installed", "mailcatcher");'
 touch "/usr/local/hestia/data/hcpp/installed/mailcatcher"
 ```
 
