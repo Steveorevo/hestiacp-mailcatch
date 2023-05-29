@@ -5,7 +5,7 @@
  * 
  * @version 1.0.0
  * @license GPL-3.0
- * @link https://github.com/steveorevo/hestiacp-mailcatcher
+ * @link https://github.com/steveorevo/hcpp-mailcatcher
  * 
  */
 
@@ -88,7 +88,7 @@
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
-            $this->setup( $user, $domain );           
+            $this->setup( $user, $domain );
             return $args;
         }
 
@@ -134,8 +134,8 @@
             $content = $args['content'];
 
             // Create white envelope icon before pencil/edit icon
-            $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" key-action="href">';
-            $code = '<div class="actions-panel__col actions-panel__code" key-action="href">
+            $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" data-key-action="href">';
+            $code = '<div class="actions-panel__col actions-panel__code" data-key-action="href">
             <a href="https://%domain%/mailcatcher" rel="noopener" target="_blank" title="Open MailCatcher">
                 <i class="fas fa-envelope status-icon highlight status-icon dim icon-dim mailcatcher"></i>
             </a></div>&nbsp;';
