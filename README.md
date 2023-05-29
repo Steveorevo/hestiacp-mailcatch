@@ -1,14 +1,16 @@
 # hcpp-mailcatcher
 A plugin for Hestia Control Panel (via hesitacp-pluginable) that furnishes multitenancy services for simulated SMTP, sendmail, and a unique web GUI for previewing all outgoing emails for each user/web domain. 
 
-&nbsp;
-> :warning: !!! Note: this repo is in progress; when completed, a release will appear in the release tab.
 
 ## Attribution
 Based on the slick interface and work from [MailDev](https://github.com/maildev/maildev) and a simulated sendmail compatible command line utility, [catchmail-node](https://github.com/xavierpriour/catchmail-node), these projects have been included and modified with new multitenant capabilities and enhanced compatibility to work "out-of-the-box" under the HestiaCP based control panel. 
 
 ## Usage
-Use MailCatcher to test applications that send mail via the local built-in SMTP server and/or sendmail (like PHP's mail() function); this plugin will rename the existing `/usr/sbin/sendmail` to `/usr/sbin/sendmail.sav` and symlink to our sendmail replacement. Unique credentials for the SMTP services can be found in `/home/<username>/web/<domain>/private/smtp.json`. Default SMTP port is 2525 and the username must match the given `<domain>` name. The built-in GUI web client can be found at the URL path `http(s)://<domain>/mailcatcher` and as an envelope icon in HestiaCP's web domain listing and edit pages.
+Use MailCatcher to test applications that send mail via the local built-in SMTP server and/or sendmail (like PHP's mail() function); this plugin will rename the existing `/usr/sbin/sendmail` to `/usr/sbin/sendmail.sav` and symlink to our sendmail replacement. Unique credentials for the SMTP services can be found in `/home/<username>/web/<domain>/private/smtp.json`. Default SMTP port is 2525 and the username must match the given `<domain>` name. 
+
+The built-in GUI web client can be found at the URL path `http(s)://<domain>/mailcatcher` and as an envelope icon in HestiaCP's web domain listing and edit pages.
+
+If you install mailcatcher ***after*** you have already created sites; then you must suspend/unsuspned the given site to initialize mailcatcher services for your domain.
 
 
 ## Installation
