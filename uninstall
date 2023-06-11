@@ -1,5 +1,5 @@
 #!/bin/bash
-runuser -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && pm2 delete mailcatcher ; pm2 save --force"
+runuser -s /bin/bash -l mailcatcher -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && pm2 delete mailcatcher ; pm2 save --force"
 rm -rf /opt/mailcatcher
 deluser mailcatcher
 rm -rf /home/mailcatcher
