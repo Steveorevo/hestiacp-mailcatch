@@ -71,8 +71,8 @@
             }
 
             // Start mailcatcher if not started
-            $cmd = 'if ! runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
-            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"; fi';
+            $cmd = 'if ! runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
+            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"; fi';
             shell_exec( $cmd );
         }
 
