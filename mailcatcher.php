@@ -47,11 +47,13 @@
         // Setup the MailCatcher Server instance for the domain
         public function setup( $user, $domain ) {
             global $hcpp;
+
+            // Create the nginx.conf_mailcatcher file.
             $conf = "/home/$user/conf/web/$domain/nginx.conf_mailcatcher";
             $content = file_get_contents( __DIR__ . '/conf-web/nginx.conf_mailcatcher' );
             file_put_contents( $conf, $content );
 
-            // Create the nginx.conf_mailcatcher file.
+            // Create the nginx.ssl.conf_mailcatcher file.
             $conf = "/home/$user/conf/web/$domain/nginx.ssl.conf_mailcatcher";
             $content = file_get_contents( __DIR__ . '/conf-web/nginx.ssl.conf_mailcatcher' );
             file_put_contents( $conf, $content );
