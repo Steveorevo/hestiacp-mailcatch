@@ -91,7 +91,7 @@
             return $args;
         }
 
-        // Add MailCatcher icon next to our web domain list and domain edit pages.
+        // Add MailCatcher icon next to our web domain list and button to domain edit pages.
         public function render_page( $args ) {
             if ( $args['page'] == 'list_web' ) {
                 $args = $this->render_list_web( $args );
@@ -102,7 +102,7 @@
             return $args;
        }
 
-       // Add MailCatcher icon to our web domain edit page.
+       // Add MailCatcher button to our web domain edit page.
        public function render_edit_web( $args ) {
             global $hcpp;
             $domain = $_GET['domain'];
@@ -133,24 +133,25 @@
             $content = $args['content'];
 
             // Create white envelope icon before pencil/edit icon
-            $div = '<div class="actions-panel__col actions-panel__edit shortcut-enter" data-key-action="href">';
-            $code = '<div class="actions-panel__col actions-panel__code" data-key-action="href">
-            <a href="https://%domain%/mailcatcher" rel="noopener" target="_blank" title="Open MailCatcher">
-                <i class="fas fa-envelope status-icon highlight status-icon dim icon-dim mailcatcher"></i>
-            </a></div>&nbsp;';
+            $div = '<li class="units-table-row-action shortcut-enter" data-key-action="href">';
+            $code = '<li class="units-table-row-action" data-key-action="href">
+                        <a class="units-table-row-action-link" href="https://%domain%/mailcatcher" target="_blank" title="Open MailCatcher">
+                            <i class="fas fa-envelope mailcatcher"></i>
+                            <span class="u-hide-desktop">MailCatcher</span>
+                        </a>
+                    </li>';
             $new = '';
 
             // Inject the envelope icon for each domain
             while( false !== strpos( $content, $div ) ) {
                 $new .= $hcpp->getLeftMost( $content, $div );
-                $domain = $hcpp->getRightMost( $new, 'sort-name="' );
-                $domain = $hcpp->getLeftMost( $domain, '"' );
                 $content = $hcpp->delLeftMost( $content, $div );
-                $new .= str_replace( '%domain%', $domain, $code ) . $div . $hcpp->getLeftMost( $content, '</div>' ) . "</div>";
-                $content = $hcpp->delLeftMost( $content, '</div>' );
+                $domain = $hcpp->getLeftMost( $hcpp->delLeftMost( $content, '?domain=' ), '&' );
+                $new .= str_replace( '%domain%', $domain, $code ) . $div;
             }
             $new .= $content;
-            $args['content'] = $new . '<style>.l-unit-toolbar__col{min-width: 200px;}i.mailcatcher:hover{color: white;}</style>';
+            $new .= '<style>i.mailcatcher:hover{color: white;}</style>';
+            $args['content'] = $new;
             return $args;
        }
 
