@@ -21,7 +21,7 @@
             $hcpp->add_action( 'nodeapp_startup_services', [ $this, 'nodeapp_startup_services' ] );
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
-            $hcpp->add_action( 'new_web_domain_ready', [ $this, 'new_web_domain_ready' ] );
+            $hcpp->add_action( 'hcpp_new_domain_ready', [ $this, 'hcpp_new_domain_ready' ] );
         }
 
         // Set MAILCATCHER_DOMAIN for PM2 started processes
@@ -85,7 +85,7 @@
             $this->setup( $user, $domain );
             return $args;
         }
-        public function new_web_domain_ready( $args ) {
+        public function hcpp_new_domain_ready( $args ) {
             $user = $args[0];
             $domain = $args[1];
             $this->create_smtp_json( $user, $domain );
