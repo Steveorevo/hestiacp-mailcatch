@@ -22,6 +22,7 @@
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'hcpp_new_domain_ready', [ $this, 'hcpp_new_domain_ready' ] );
+            $hcpp->add_action( 'hcpp_rebooted', [ $this, 'hcpp_rebooted' ] );
         }
 
         // Set MAILCATCHER_DOMAIN for PM2 started processes
@@ -71,11 +72,21 @@
             }else{
                 $hcpp->log( 'Warning: /usr/local/hestia/data/hcpp/ports/system.ports not found' );
             }
+            $this->start();
+        }
 
-            // Start mailcatcher if not started
+        // Start mailcatcher
+        public function start() {
             $cmd = 'if ! runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
             $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"; fi';
-            shell_exec( $cmd );
+            global $hcpp;
+            $cmd = $hcpp->do_action( 'mailcatcher_start', $cmd );
+            $hcpp->log( shell_exec( $cmd ) );
+        }
+
+        // Start mailcatcher on reboot
+        public function hcpp_rebooted() {
+            $this->start();
         }
 
         public function priv_unsuspend_domain( $args ) {
@@ -102,60 +113,60 @@
                 $args = $this->render_edit_web( $args );
             }
             return $args;
-       }
+        }
 
-       // Add MailCatcher button to our web domain edit page.
-       public function render_edit_web( $args ) {
-            global $hcpp;
-            $domain = $_GET['domain'];
-            $content = $args['content'];
+        // Add MailCatcher button to our web domain edit page.
+        public function render_edit_web( $args ) {
+                global $hcpp;
+                $domain = $_GET['domain'];
+                $content = $args['content'];
 
-            // Create white envelope icon button to appear before Quick Installer button
-            $code = '<a href="https://' . $domain . '/mailcatcher" target="_blank" class="button button-secondary ui-button cancel" ';
-            $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
-            $code .= '</i> MailCatcher</a>';
+                // Create white envelope icon button to appear before Quick Installer button
+                $code = '<a href="https://' . $domain . '/mailcatcher" target="_blank" class="button button-secondary ui-button cancel" ';
+                $code .= 'dir="ltr"><i class="fas fa-envelope status-icon highlight">';
+                $code .= '</i> MailCatcher</a>';
 
-            // Inject the button into the page's toolbar buttonstrip
-            $quick = '"fas fa-magic status-icon blue'; // HestiaCP 1.6.X
-            if ( strpos( $content, $quick ) === false ) {
-                $quick = '"fas fa-magic icon-blue'; // HestiaCP 1.7.X
-            }
-            $before = $hcpp->getLeftMost( $content, $quick );
-            $after = $quick . $hcpp->delLeftMost( $content, $quick );
-            $after = '<a href' . $hcpp->getRightMost( $before, '<a href' ) . $after;
-            $before = $hcpp->delRightMost( $before, '<a href' );
-            $content = $before . $code . $after;
-            $args['content'] = $content;
-            return $args;
-       }
+                // Inject the button into the page's toolbar buttonstrip
+                $quick = '"fas fa-magic status-icon blue'; // HestiaCP 1.6.X
+                if ( strpos( $content, $quick ) === false ) {
+                    $quick = '"fas fa-magic icon-blue'; // HestiaCP 1.7.X
+                }
+                $before = $hcpp->getLeftMost( $content, $quick );
+                $after = $quick . $hcpp->delLeftMost( $content, $quick );
+                $after = '<a href' . $hcpp->getRightMost( $before, '<a href' ) . $after;
+                $before = $hcpp->delRightMost( $before, '<a href' );
+                $content = $before . $code . $after;
+                $args['content'] = $content;
+                return $args;
+        }
 
-       // Add MailCatcher icon to our web domain list page.
-       public function render_list_web( $args ) {
-            global $hcpp;
-            $content = $args['content'];
+        // Add MailCatcher icon to our web domain list page.
+        public function render_list_web( $args ) {
+                global $hcpp;
+                $content = $args['content'];
 
-            // Create white envelope icon before pencil/edit icon
-            $div = '<li class="units-table-row-action shortcut-enter" data-key-action="href">';
-            $code = '<li class="units-table-row-action" data-key-action="href">
-                        <a class="units-table-row-action-link" href="https://%domain%/mailcatcher" target="_blank" title="Open MailCatcher">
-                            <i class="fas fa-envelope mailcatcher"></i>
-                            <span class="u-hide-desktop">MailCatcher</span>
-                        </a>
-                    </li>';
-            $new = '';
+                // Create white envelope icon before pencil/edit icon
+                $div = '<li class="units-table-row-action shortcut-enter" data-key-action="href">';
+                $code = '<li class="units-table-row-action" data-key-action="href">
+                            <a class="units-table-row-action-link" href="https://%domain%/mailcatcher" target="_blank" title="Open MailCatcher">
+                                <i class="fas fa-envelope mailcatcher"></i>
+                                <span class="u-hide-desktop">MailCatcher</span>
+                            </a>
+                        </li>';
+                $new = '';
 
-            // Inject the envelope icon for each domain
-            while( false !== strpos( $content, $div ) ) {
-                $new .= $hcpp->getLeftMost( $content, $div );
-                $content = $hcpp->delLeftMost( $content, $div );
-                $domain = $hcpp->getLeftMost( $hcpp->delLeftMost( $content, '?domain=' ), '&' );
-                $new .= str_replace( '%domain%', $domain, $code ) . $div;
-            }
-            $new .= $content;
-            $new .= '<style>i.mailcatcher:hover{color: white;}</style>';
-            $args['content'] = $new;
-            return $args;
-       }
+                // Inject the envelope icon for each domain
+                while( false !== strpos( $content, $div ) ) {
+                    $new .= $hcpp->getLeftMost( $content, $div );
+                    $content = $hcpp->delLeftMost( $content, $div );
+                    $domain = $hcpp->getLeftMost( $hcpp->delLeftMost( $content, '?domain=' ), '&' );
+                    $new .= str_replace( '%domain%', $domain, $code ) . $div;
+                }
+                $new .= $content;
+                $new .= '<style>i.mailcatcher:hover{color: white;}</style>';
+                $args['content'] = $new;
+                return $args;
+        }
 
         // Allocate port on install
         public function hcpp_plugin_installed( $plugin_name ) {
