@@ -77,7 +77,7 @@
         // Start mailcatcher and save the process list
         public function start() {
             $cmd = 'if ! runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
-            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js" ; pm2 save --force; fi';
+            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js ; pm2 save --force"; fi';
             global $hcpp;
             $cmd = $hcpp->do_action( 'mailcatcher_start', $cmd );
             $hcpp->log( shell_exec( $cmd ) );
