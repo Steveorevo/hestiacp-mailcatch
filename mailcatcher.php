@@ -22,7 +22,6 @@
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'hcpp_new_domain_ready', [ $this, 'hcpp_new_domain_ready' ] );
-            $hcpp->add_action( 'hcpp_rebooted', [ $this, 'hcpp_rebooted' ] );
         }
 
         // Set MAILCATCHER_DOMAIN for PM2 started processes
@@ -75,20 +74,15 @@
             $this->start();
         }
 
-        // Start mailcatcher
+        // Start mailcatcher and save the process list
         public function start() {
             $cmd = 'if ! runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh && pm2 list" | grep -q "mailcatcher_app"; ';
-            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js"; fi';
+            $cmd .= 'then runuser -s /bin/bash -l "mailcatcher" -c "cd /opt/mailcatcher && export NVM_DIR=/opt/nvm && source /opt/nvm/nvm.sh ; pm2 start mailcatcher.config.js" ; pm2 save --force; fi';
             global $hcpp;
             $cmd = $hcpp->do_action( 'mailcatcher_start', $cmd );
             $hcpp->log( shell_exec( $cmd ) );
         }
-
-        // Start mailcatcher on reboot
-        public function hcpp_rebooted() {
-            $this->start();
-        }
-
+        
         public function priv_unsuspend_domain( $args ) {
             $user = $args[0];
             $domain = $args[1];
