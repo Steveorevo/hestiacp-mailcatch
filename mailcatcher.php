@@ -17,7 +17,7 @@
         public function __construct() {
             global $hcpp;
             $hcpp->mailcatcher = $this;
-            $hcpp->add_action( 'hcpp_render_page', [ $this, 'hcpp_render_page' ] );
+            $hcpp->add_action( 'hcpp_render_body', [ $this, 'hcpp_render_body' ] );
             $hcpp->add_action( 'nodeapp_startup_services', [ $this, 'nodeapp_startup_services' ] );
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
@@ -99,7 +99,7 @@
         }
 
         // Add MailCatcher icon next to our web domain list and button to domain edit pages.
-        public function hcpp_render_page( $args ) {
+        public function hcpp_render_body( $args ) {
             if ( $args['page'] == 'list_web' ) {
                 $args = $this->render_list_web( $args );
             }
