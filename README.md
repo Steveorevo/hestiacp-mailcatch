@@ -1,5 +1,5 @@
 # hcpp-mailcatcher
-A plugin for Hestia Control Panel (via hesitacp-pluginable) that furnishes multitenancy services for simulated SMTP, sendmail, and a unique web GUI for previewing all outgoing emails for each user/web domain. 
+A plugin for Hestia Control Panel (via hestiacp-pluginable) that furnishes multitenancy services for simulated SMTP, sendmail, and a unique web GUI for previewing all outgoing emails for each user/web domain. 
 
 
 ## Attribution
