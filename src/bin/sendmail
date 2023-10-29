@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#
+# A sendmail compatible implementation for mailcatcher using
+# nodejs. Pass all incoming arguments to the Node.js script
+#
+source /opt/nvm/nvm.sh
+node /opt/mailcatcher/bin/cli.js "$@"
