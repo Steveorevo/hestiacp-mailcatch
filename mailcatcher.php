@@ -22,6 +22,14 @@
             $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'hcpp_new_domain_ready', [ $this, 'hcpp_new_domain_ready' ] );
+            $hcpp->add_action( 'priv_delete_web_domain', [ $this, 'priv_delete_web_domain' ] );
+        }
+
+        // Clean up postbox for deleted domain
+        public function priv_delete_web_domain( $args ) {
+            $domain = $args[1];
+            shell_exec( 'cd /home/mailcatcher/postbox && rm -rf ' . $domain . '_*' );
+            return $args;
         }
 
         // Set MAILCATCHER_DOMAIN for PM2 started processes
@@ -169,8 +177,6 @@
             $port = $hcpp->allocate_port( 'mailcatcher_port' );
             return $plugin_name;
         }
-
-        // TODO: when domain is deleted, cleanup the domain in mailcatcher; i.e. rm -rf /tmp/mailcatcher/$domain_*
     }
     new MailCatcher();
 }
