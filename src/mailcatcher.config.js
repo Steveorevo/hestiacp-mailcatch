@@ -40,7 +40,7 @@ module.exports = {
         }
         port = parseInt(port.trim().split(' ').pop());
         details._port = port;
-        details.args = "-w " + details._port + " -s 2525 --base-pathname /mailcatcher --mail-directory /tmp/mailcatcher";
+        details.args = "-w " + details._port + " -s 2525 --base-pathname /mailcatcher --mail-directory /home/mailcatcher/postbox";
 
         // Check for debug mode and pass debug port as port + 3000 offset
         if ( fs.existsSync(details.cwd + '/.debug') ) {
