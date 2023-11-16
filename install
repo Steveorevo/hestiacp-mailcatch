@@ -12,7 +12,6 @@ runuser -s /bin/bash -l mailcatcher -c "cd /opt/mailcatcher && export NVM_DIR=/o
 
 
 # Swap out sendmail for mailcatcher
-mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
 if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
     mv /usr/sbin/sendmail /usr/sbin/sendmail.pre-mailcatcher-sav
 fi

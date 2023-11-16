@@ -19,7 +19,8 @@
             $hcpp->mailcatcher = $this;
             $hcpp->add_action( 'hcpp_render_body', [ $this, 'hcpp_render_body' ] );
             $hcpp->add_action( 'nodeapp_startup_services', [ $this, 'nodeapp_startup_services' ] );
-            $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] );
+            $hcpp->add_action( 'priv_unsuspend_web_domain', [ $this, 'priv_unsuspend_domain' ] ); // Bulk unsuspend domains only throws this event
+            $hcpp->add_action( 'priv_unsuspend_domain', [ $this, 'priv_unsuspend_domain' ] ); // Individually unsuspend domain only throws this event
             $hcpp->add_action( 'hcpp_plugin_installed', [ $this, 'hcpp_plugin_installed' ] );
             $hcpp->add_action( 'hcpp_new_domain_ready', [ $this, 'hcpp_new_domain_ready' ] );
             $hcpp->add_action( 'priv_delete_web_domain', [ $this, 'priv_delete_web_domain' ] );
