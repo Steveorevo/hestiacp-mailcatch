@@ -11,3 +11,6 @@ if [ ! -L /usr/sbin/sendmail.pre-mailcatcher-sav ] ; then
    mv /usr/sbin/sendmail.pre-mailcatcher-sav /usr/sbin/sendmail
 fi
 unlink /usr/local/bin/sendmail
+
+# Remove all mailcatcher configs
+find /home/*/conf/web -type f \( -name "nginx.ssl.conf_mailcatcher" -o -name "nginx.conf_mailcatcher" \) -exec rm -f {} \;
